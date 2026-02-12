@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Card from "./Components/Card";
 import type { Notes } from "./types/types";
+import { NotesContext } from "./Context/NotesContext";
 
 const App = () => {
-  const [note, setNote] = useState<Notes>({ title: "", details: "" });
-  const [allNotes, setAllNotes] = useState<Notes[]>([]);
+  const [note, setNote] = useState<Notes>({ id: 0, title: "", details: "" });
+  const context = useContext(NotesContext);
+
+  if (!context) {
+    throw new Error("ThemeContext must be used within ThemeProvider");
+  }
+
+  const { allNotes, addNote } = context;
 
   const submitNote = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setAllNotes([...allNotes, note]);
+    const currId = allNotes.length;
+    setNote({ ...note, id: currId + 1 });
+    addNote(note);
     console.log(allNotes);
   };
 
@@ -45,7 +54,12 @@ const App = () => {
         <h1 className="text-white text-5xl font-medium pb-5">Notes</h1>
         <div className="grid lg:grid-cols-2 gap-5 justify-items-center">
           {allNotes.map((val, idx) => (
-            <Card title={val.title} details={val.details} key={idx} />
+            <Card
+              id={val.id}
+              title={val.title}
+              details={val.details}
+              key={idx}
+            />
           ))}
         </div>
       </div>
