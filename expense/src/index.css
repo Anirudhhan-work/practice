@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.nav-btn {
+  @apply flex gap-2 items-center hover:bg-gray-700 py-4 px-2 rounded-md;
+}

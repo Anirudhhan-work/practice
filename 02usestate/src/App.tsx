@@ -8,8 +8,10 @@ const App = () => {
   const context = useContext(NotesContext);
 
   if (!context) {
-    throw new Error("ThemeContext must be used within ThemeProvider");
+    throw new Error("NotesContext must be used within NotesProvider");
   }
+
+  console.log("hy");
 
   const { allNotes, addNote } = context;
 
